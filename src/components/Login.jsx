@@ -32,9 +32,9 @@ const Login = () => {
   }
 
   return (
-    <div className="container">
+    <div className="d-flex justify-content-center">
       <div className="row mt-4">
-        <div className="col-sm-4 mt-4">
+        <div className="col-8 mt-4">
           <form className="form-group" onSubmit={login}>
             <label htmlFor="email" className="form-label">
               E-Mail

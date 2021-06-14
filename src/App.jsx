@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -8,7 +7,7 @@ import Listado from "./components/Listado";
 
 function App() {
   return (
-    <Fragment>
+    
       <BrowserRouter>
         <Navbar></Navbar>
         <Switch>
@@ -23,8 +22,7 @@ function App() {
         <Switch>
           <Route path="/listado" component={Listado}></Route>
         </Switch>
-      </BrowserRouter>
-    </Fragment>
+      </BrowserRouter>        
   );
 }
 
