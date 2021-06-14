@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import "firebase/auth";
+import "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyAH06VLIvJSi-PhhaICkjcgRiS4GFPmSrM",
   authDomain: "users-c4427.firebaseapp.com",
@@ -13,5 +14,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const fire = firebase.initializeApp(firebaseConfig);
 const auth = fire.auth(); //inicializamos auth
+const db = fire.firestore();
 
-export { auth }; //lo exportamos y está listo para ser usado en el proyecto
+export { auth, db }; //lo exportamos y está listo para ser usado en el proyecto
