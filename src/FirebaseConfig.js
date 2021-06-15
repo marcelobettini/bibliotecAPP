@@ -14,6 +14,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const fire = firebase.initializeApp(firebaseConfig);
 const auth = fire.auth(); //inicializamos auth
-const db = fire.firestore();
+const storage = fire.firestore();
+const storageImg = fire.storage();
 
-export { auth, db }; //lo exportamos y está listo para ser usado en el proyecto
+export { auth, storage, storageImg }; //lo exportamos y está listo para ser usado en el proyecto
