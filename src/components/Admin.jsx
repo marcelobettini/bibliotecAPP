@@ -8,23 +8,16 @@ const Admin = () => {
   const [error, setError] = useState(null);
 
   const uploadBook = async (url) => {
-    if (!title.trim() || !author.trim() || !synopsis.trim()) {
-      setError(
-        "No puede haber campos vacíos. Complete 'Título', 'Autor' y 'Sinopsis'"
-      );
-    } else {
-      setError(null);
-      const book = {
-        title: title,
-        author: author,
-        synopsis: synopsis,
-        cover: url,
-      };
-      try {
-        const data = await storage.collection("books").add(book);
-      } catch (e) {
-        console.log(e);
-      }
+    const book = {
+      title: title,
+      author: author,
+      synopsis: synopsis,
+      cover: url,
+    };
+    try {
+      const data = await storage.collection("books").add(book);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -36,24 +29,30 @@ const Admin = () => {
   };
   const handleUpload = (e) => {
     e.preventDefault();
-    const uploadTask = storageImg.ref(`covers/${cover.name}`).put(cover);
+    if (!title.trim() || !author.trim() || !synopsis.trim()) {
+      setError(
+        "No puede haber campos vacíos. Complete 'Título', 'Autor' y 'Sinopsis'"
+      );
+    } else {
+      const uploadTask = storageImg.ref(`covers/${cover.name}`).put(cover);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        storageImg
-          .ref("covers")
-          .child(cover.name)
-          .getDownloadURL()
-          .then((url) => {
-            uploadBook(url);
-          });
-      }
-    );
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          storageImg
+            .ref("covers")
+            .child(cover.name)
+            .getDownloadURL()
+            .then((url) => {
+              uploadBook(url);
+            });
+        }
+      );
+    }
   };
   return (
     <div className="d-flex justify-content-center">
