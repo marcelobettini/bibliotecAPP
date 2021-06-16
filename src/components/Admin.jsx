@@ -15,16 +15,15 @@ const Admin = () => {
       cover: url,
     };
     try {
-      const data = await storage.collection("books").add(book);
-    } catch (e) {
-      console.log(e);
-    }
+      await storage.collection("books").add(book); //quité const data = await...
+    } catch (e) {}
+    setError(null);
+    setCover(null);
   };
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setCover(e.target.files[0]);
-      console.log(e.target.files[0]);
     }
   };
   const handleUpload = (e) => {
@@ -33,14 +32,18 @@ const Admin = () => {
       setError(
         "No puede haber campos vacíos. Complete 'Título', 'Autor' y 'Sinopsis'"
       );
+    } else if (cover === null) {
+      setError("Debe cargar la portada del libro");
     } else {
       const uploadTask = storageImg.ref(`covers/${cover.name}`).put(cover);
+      console.log("dentro de handleUpload, antes de uploadTask.on");
+      console.log(uploadTask);
 
       uploadTask.on(
         "state_changed",
         (snapshot) => {},
         (error) => {
-          console.log(error);
+          setError(error);
         },
         () => {
           storageImg
@@ -55,13 +58,13 @@ const Admin = () => {
     }
   };
   return (
-    <div className="d-flex justify-content-center">
-      <div className="row">
-        <div className="col">
+    <div className="container-fluid text-center">
+      <div className="row d-flex justify-content-center">
+        <div className="col-sm-5">
           <h6 className="display-6">Sección de Administración</h6>
           <p>Formulario de carga de libros en la base de datos</p>
 
-          <form className="form-group mt-5" onSubmit={handleUpload}>
+          <form id="form" className="form-group mt-5" onSubmit={handleUpload}>
             <input
               type="text"
               className="form-control mb-2"
@@ -81,7 +84,6 @@ const Admin = () => {
               onChange={(e) => setSynopsis(e.target.value)}
             />
             <div>
-              {/* <label htmlFor="coverImg" className="formL-label">Foto de la portada</label> */}
               <input
                 type="file"
                 accept=".png, .jpg"
@@ -90,7 +92,9 @@ const Admin = () => {
               />
             </div>
             {error ? (
-              <div className="alert alert-danger">{error}</div>
+              <div>
+                <p className="alert alert-danger">{error}</p>
+              </div>
             ) : (
               <span></span>
             )}
