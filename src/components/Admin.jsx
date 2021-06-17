@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { storage, storageImg } from "../FirebaseConfig";
 const Admin = () => {
+  const formEl = document.getElementById("form")
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [synopsis, setSynopsis] = useState("");
@@ -19,6 +20,7 @@ const Admin = () => {
     } catch (e) {}
     setError(null);
     setCover(null);
+    formEl.reset()
   };
 
   const handleChange = (e) => {
@@ -41,7 +43,10 @@ const Admin = () => {
 
       uploadTask.on(
         "state_changed",
-        (snapshot) => {},
+        (snapshot) => {
+          console.log(`transferido: ${(snapshot.totalBytes / snapshot.bytesTransferred)*100}`)
+          
+        },
         (error) => {
           setError(error);
         },
