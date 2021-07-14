@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { storage } from "../FirebaseConfig";
 import Spinner from "./Spinner";
+import { Modal } from "bootstrap";
 
 const Listado = () => {
+  const [imgLoaded, setImgLoaded] = useState(false);
   const [books, setBooks] = useState([]);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -10,6 +12,11 @@ const Listado = () => {
   const [cover, setCover] = useState("");
 
   function bookDetail(id) {
+    setImgLoaded(false);
+    setTitle("");
+    setAuthor("");
+    setSynopsis("");
+    setCover("");
     storage
       .collection("books")
       .doc(id)
@@ -27,10 +34,9 @@ const Listado = () => {
       .catch((error) => {
         console.error(error);
       });
-    setTitle("");
-    setAuthor("");
-    setSynopsis("");
-    setCover("");
+    setTimeout(() => {
+      setImgLoaded(true);
+    }, 1500);
   }
   useEffect(() => {
     const getBooks = async () => {
@@ -53,10 +59,10 @@ const Listado = () => {
                 .map((item) => (
                   <li
                     key={item.id}
-                    className="list-group-item"
+                    className="list-group-item btn btn-dark"
                     data-bs-toggle="modal"
                     data-bs-target="#modal"
-                    onClick={(id) => {
+                    onClick={() => {
                       bookDetail(item.id);
                     }}
                   >
@@ -71,7 +77,8 @@ const Listado = () => {
             )}
           </ul>
         </div>
-        
+
+        <div className="col-12">
           <div
             className="modal fade"
             id="modal"
@@ -79,7 +86,7 @@ const Listado = () => {
             aria-labelledby="modal"
             aria-hidden="true"
           >
-            <div className="modal-dialog">
+            <div className="modal-dialog modal-xl">
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="modalLabel">
@@ -94,8 +101,12 @@ const Listado = () => {
                 </div>
                 <div className="modal-body">
                   <p className="text-start">{author}</p>
-                  <img className="img-fluid" src={cover} alt="" />
                   <p>{synopsis}</p>
+                  {imgLoaded ? (
+                    <img className="img-fluid" src={cover} alt="" />
+                  ) : (
+                    <Spinner />
+                  )}
                 </div>
                 <div className="modal-footer">
                   <button
@@ -108,7 +119,8 @@ const Listado = () => {
                 </div>
               </div>
             </div>
-          </div>        
+          </div>
+        </div>
       </div>
     </div>
   );
