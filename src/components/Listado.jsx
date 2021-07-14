@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { storage } from "../FirebaseConfig";
-import { Modal } from "bootstrap";
+import Spinner from "./Spinner";
 
 const Listado = () => {
   const [books, setBooks] = useState([]);
@@ -32,7 +32,6 @@ const Listado = () => {
     setSynopsis("");
     setCover("");
   }
-
   useEffect(() => {
     const getBooks = async () => {
       const { docs } = await storage.collection("books").get(); //{docs} = res.docs
@@ -41,7 +40,6 @@ const Listado = () => {
     };
     getBooks();
   }, []);
-
   return (
     <div className="container-fluid text-center">
       <h6 className="display-6">Listado de libros</h6>
@@ -69,47 +67,48 @@ const Listado = () => {
                   </li>
                 ))
             ) : (
-              <span></span>
+              <Spinner />
             )}
           </ul>
         </div>
-        <div
-          className="modal fade"
-          id="modal"
-          tabIndex="-1"
-          aria-labelledby="modal"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="modalLabel">
-                  {title}
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <p className="text-start">{author}</p>
-                <img className="img-fluid" src={cover} alt="" />
-                <p>{synopsis}</p>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
+        
+          <div
+            className="modal fade"
+            id="modal"
+            tabIndex="-1"
+            aria-labelledby="modal"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="modalLabel">
+                    {title}
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p className="text-start">{author}</p>
+                  <img className="img-fluid" src={cover} alt="" />
+                  <p>{synopsis}</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div>        
       </div>
     </div>
   );
