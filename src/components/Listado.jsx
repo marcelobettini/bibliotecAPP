@@ -12,7 +12,6 @@ const Listado = () => {
   const [cover, setCover] = useState("");
 
   function bookDetail(id) {
-    setImgLoaded(false);
     setTitle("");
     setAuthor("");
     setSynopsis("");
@@ -34,9 +33,10 @@ const Listado = () => {
       .catch((error) => {
         console.error(error);
       });
-    setTimeout(() => {
-      setImgLoaded(true);
-    }, 1500);
+  }
+
+  function checkImgLoad(ev) {
+    setImgLoaded(true);
   }
   useEffect(() => {
     const getBooks = async () => {
@@ -83,6 +83,8 @@ const Listado = () => {
             className="modal fade"
             id="modal"
             tabIndex="-1"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
             aria-labelledby="modal"
             aria-hidden="true"
           >
@@ -97,22 +99,31 @@ const Listado = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
+                    onClick={() => {
+                      setImgLoaded(false);
+                    }}
                   ></button>
                 </div>
                 <div className="modal-body">
                   <p className="text-start">{author}</p>
                   <p>{synopsis}</p>
-                  {imgLoaded ? (
-                    <img className="img-fluid" src={cover} alt="" />
-                  ) : (
-                    <Spinner />
-                  )}
+                  {!imgLoaded && <Spinner />}
+                  <img
+                    id="cover-img"
+                    className="img-fluid"
+                    src={cover}
+                    alt=""
+                    onLoad={(ev) => checkImgLoad(ev)}
+                  />
                 </div>
                 <div className="modal-footer">
                   <button
                     type="button"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
+                    onClick={() => {
+                      setImgLoaded(false);
+                    }}
                   >
                     Close
                   </button>
