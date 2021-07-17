@@ -105,12 +105,13 @@ const Listado = () => {
                   ></button>
                 </div>
                 <div className="modal-body">
-                  <p className="text-start">{author}</p>
-                  <p>{synopsis}</p>
+                  <p className="text-start mx-4">{author}</p>
+                  <p className="text-start mx-4">{synopsis}</p>
                   {!imgLoaded && <Spinner />}
                   <img
                     id="cover-img"
-                    className="img-fluid"
+                    className="img"
+                    style={{ width: "400px" }}
                     src={cover}
                     alt=""
                     onLoad={(ev) => checkImgLoad(ev)}
