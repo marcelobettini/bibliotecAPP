@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { auth } from "../FirebaseConfig";
 import { useHistory } from "react-router-dom";
+import { MdEmail, MdLock } from "react-icons/md";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState(null);
+  const [pwdShown, setPwdShown] = useState(false);
   const navigate = useHistory();
 
   function login(e) {
@@ -34,36 +37,47 @@ const Login = () => {
   return (
     <div className="container  d-flex justify-content-center">
       <div className="row">
-        <div className="col-sm-8">
+        <div className="col border border-2 rounded  mt-5 px-5 py-5">
           <form className="form-group" onSubmit={login}>
-            <label htmlFor="email" className="form-label">
-              E-Mail
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="email"
-              aria-describedby="emailHelp"
-              placeholder="Ingrese su email aquí..."
-              autoComplete="user-name"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <div id="emailHelp" className="form-text">
-              Debe escribir la dirección de coreo electrónico que le permite
-              acceder al sistema de administración.
+            <div className="input-group">
+              <div className="input-group-text">
+                <MdEmail></MdEmail>
+              </div>
+              <input
+                type="text"
+                className="form-control"
+                id="email"
+                aria-describedby="emailHelp"
+                placeholder="Ingrese su email..."
+                autoComplete="user-name"
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-            <label htmlFor="password" className="form-label mt-4">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              aria-describedby="password-help"
-              placeholder="Ingrese la contraseña..."
-              autoComplete="current-password"
-              onChange={(e) => setPass(e.target.value)}
-            />
+            <div id="emailHelp" className="form-text mb-5">
+              Correo electrónico con que accede al sistema de administración
+            </div>
+
+            <div className="input-group">
+              <div className="input-group-text">
+                <MdLock />
+              </div>
+              <input
+                type={pwdShown ? "text" : "password"}
+                className="form-control"
+                id="password"
+                aria-describedby="password-help"
+                placeholder="Ingrese la contraseña..."
+                autoComplete="current-password"
+                onChange={(e) => setPass(e.target.value)}
+              />
+              <div
+                className="input-group-text"
+                onClick={() => setPwdShown(!pwdShown)}
+              >
+                {pwdShown ? <HiEye /> : <HiEyeOff />}
+              </div>
+            </div>
+
             <div id="password-help" className="form-text mb-5">
               Su contraseña debe tener al menos seis caracteres alfanuméricos.
             </div>
