@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "../FirebaseConfig";
+import "../styles/Navbar.css";
 
 const Navbar = () => {
   const navigate = useHistory();
@@ -19,7 +20,7 @@ const Navbar = () => {
   };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid">
+      <div className="container">
         <Link className="navbar-brand" to="/">
           LOGO
         </Link>
@@ -37,7 +38,9 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <Link className="nav-link" to="/listado">
-              Libros
+              <button className="btn btn-sm btn-outline-primary push">
+                Libros
+              </button>
             </Link>
             {!logged ? (
               <Link
@@ -45,20 +48,25 @@ const Navbar = () => {
                 aria-current="page"
                 to="/login"
               >
-                Login
+                <button className="btn btn-sm btn-outline-success push">
+                  Login
+                </button>
               </Link>
             ) : (
               <Fragment>
                 <Link className="nav-link" aria-current="page" to="/admin">
-                  Administrar
+                  <button className="btn btn-sm btn-outline-primary push">
+                    Administrar
+                  </button>
                 </Link>
-                <span
-                  className="nav-link text-danger"
-                  aria-current="page"
-                  onClick={logout}
-                >
-                  Logout
-                </span>
+                <Link className="nav-link" aria-current="page" to="/">
+                  <button
+                    className="btn btn-sm btn-outline-danger push"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
+                </Link>
               </Fragment>
             )}
             {/* <Link

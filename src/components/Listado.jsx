@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { storage } from "../FirebaseConfig";
 import Spinner from "./Spinner";
+import "../styles/Listado.css";
 import { Modal } from "bootstrap";
 
 const Listado = () => {
@@ -35,9 +36,6 @@ const Listado = () => {
       });
   }
 
-  function checkImgLoad(ev) {
-    setImgLoaded(true);
-  }
   useEffect(() => {
     const getBooks = async () => {
       const { docs } = await storage.collection("books").get(); //{docs} = res.docs
@@ -78,7 +76,7 @@ const Listado = () => {
           </ul>
         </div>
 
-        <div className="col-12">
+        <div className="container">
           <div
             className="modal fade"
             id="modal"
@@ -91,7 +89,7 @@ const Listado = () => {
             <div className="modal-dialog modal-xl">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title" id="modalLabel">
+                  <h5 className="modal-title text-uppercase " id="modalLabel">
                     {title}
                   </h5>
                   <button
@@ -105,17 +103,21 @@ const Listado = () => {
                   ></button>
                 </div>
                 <div className="modal-body">
-                  <p className="text-start mx-4">{author}</p>
-                  <p className="text-start mx-4">{synopsis}</p>
                   {!imgLoaded && <Spinner />}
-                  <img
-                    id="cover-img"
-                    className="img"
-                    style={{ width: "400px" }}
-                    src={cover}
-                    alt=""
-                    onLoad={(ev) => checkImgLoad(ev)}
-                  />
+                  <figure className="float-sm-start ">
+                    <img
+                      className="mx-sm-3 my-sm-4 cover-img"
+                      src={cover}
+                      alt=""
+                      onLoad={(ev) => setImgLoaded(true)}
+                    />
+                  </figure>
+                  {imgLoaded && (
+                    <div>
+                      <p className="text-start mx-4 my-4">{synopsis}</p>
+                      <p className="text-center font mx-2 fw-bold">{author}</p>
+                    </div>
+                  )}
                 </div>
                 <div className="modal-footer">
                   <button
